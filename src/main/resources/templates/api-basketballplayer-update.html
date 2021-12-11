@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Basketball Player</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container-lg">
+    <h2 class="mt-2">Update Basketball Player</h2>
+    <form th:method="post" th:action="@{'/sport/api/players/update/' + ${id}}" th:object="${player}">
+        <div class="mb-2">
+            <label for="first_name">First name</label>
+            <input th:field="*{first_name}" type="text" required th:value="${player.first_name}">
+        </div>
+        <div class="mb-2">
+            <label for="last_name">Last name</label>
+            <input th:field="*{last_name}" type="text" required th:value="${player.last_name}">
+        </div>
+        <div class="mb-2">
+            <label for="team">Team</label>
+            <input th:field="*{team}" type="text" required th:value="${player.team}">
+        </div>
+        <div class="mb-2">
+            <label for="age">Age</label>
+            <input th:field="*{age}" type="number" required th:value="${player.age}">
+        </div>
+        <div class="mb-2">
+            <label for="height">Height</label>
+            <input th:field="*{height}" type="number" required th:value="${player.height}">
+        </div>
+        <div class="mb-2">
+            <label for="weight">Weight</label>
+            <input th:field="*{weight}" type="number" required th:value="${player.weight}">
+        </div>
+        <div class="mb-2">
+            <input class="btn btn-primary" type="submit" th:value="Update">
+        </div>
+    </form>
+</div>
+</body>
+</html>
