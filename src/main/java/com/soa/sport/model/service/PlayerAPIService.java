@@ -12,17 +12,17 @@ import java.time.Duration;
 
 public class PlayerAPIService {
     @Autowired
-    private final WebClient playerAPI;
+    private final WebClient API;
 
     private static final Duration REQUEST_TIMEOUT = Duration.ofSeconds(10);
 
     @Autowired
-    public PlayerAPIService(@Qualifier("playerAPI") WebClient playerAPI){ this.playerAPI = playerAPI; }
+    public PlayerAPIService(@Qualifier("API") WebClient API){ this.API = API; }
 
     public Player[] requestAllPlayers(){
-        return playerAPI
+        return API
                 .get()
-                .uri("/players/")
+                .uri("/sport/api/players/")
                 .retrieve()
                 .bodyToMono(Player[].class)
                 .block(REQUEST_TIMEOUT);
@@ -30,9 +30,9 @@ public class PlayerAPIService {
 
     public Player readPlayer(int id){ return requestPlayer(id); }
     private Player requestPlayer(int id){
-        return playerAPI
+        return API
                 .get()
-                .uri("/players/" + id + "/")
+                .uri("/sport/api/players/" + id + "/")
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .bodyToMono(Player.class)
@@ -41,9 +41,9 @@ public class PlayerAPIService {
 
     public PlayerDTO create(PlayerDTO playerDTO) { return requestCreatePlayer(playerDTO);}
     private PlayerDTO requestCreatePlayer(PlayerDTO playerDTO){
-        return playerAPI
+        return API
                 .post()
-                .uri("/players/")
+                .uri("/sport/api/players/new")
                 .body(Mono.just(playerDTO), PlayerDTO.class)
                 .retrieve()
                 .bodyToMono(PlayerDTO.class)
@@ -52,9 +52,9 @@ public class PlayerAPIService {
 
     public PlayerDTO update(int id, PlayerDTO playerDTO) { return requestCreatePlayer(id, playerDTO); }
     private PlayerDTO requestCreatePlayer(int id, PlayerDTO playerDTO){
-        return playerAPI
+        return API
                 .put()
-                .uri("/players/" + id + "/")
+                .uri("/sport/api/players/update" + id + "/")
                 .body(Mono.just(playerDTO), PlayerDTO.class)
                 .retrieve()
                 .bodyToMono(PlayerDTO.class)
@@ -63,9 +63,9 @@ public class PlayerAPIService {
 
     public void delete(int id) { this.requestDeletePlayer(id); }
     private void requestDeletePlayer(int id){
-        playerAPI
+        API
                 .delete()
-                .uri("/players/" + id + "/")
+                .uri("/sport/api/players/delete" + id + "/")
                 .retrieve()
                 .bodyToMono(Void.class)
                 .block(REQUEST_TIMEOUT);

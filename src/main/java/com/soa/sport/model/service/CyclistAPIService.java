@@ -15,17 +15,17 @@ import java.time.Duration;
 public class CyclistAPIService {
 
     @Autowired
-    private final WebClient cyclistAPI;
+    private final WebClient API;
 
     private static final Duration REQUEST_TIMEOUT = Duration.ofSeconds(10);
 
     @Autowired
-    public CyclistAPIService(@Qualifier("cyclistAPI") WebClient cyclistAPI){ this.cyclistAPI = cyclistAPI; }
+    public CyclistAPIService(@Qualifier("API") WebClient API){ this.API = API; }
 
     public Cyclist[] requestAllProCyclists(){
-        return cyclistAPI
+        return API
                 .get()
-                .uri("/pro_cyclists/")
+                .uri("/sport/api/cyclists")
                 .retrieve()
                 .bodyToMono(Cyclist[].class)
                 .block(REQUEST_TIMEOUT);
@@ -33,9 +33,9 @@ public class CyclistAPIService {
 
     public Cyclist readcyclist(int id){ return requestCyclist(id); }
     private Cyclist requestCyclist(int id){
-        return cyclistAPI
+        return API
                 .get()
-                .uri("/pro_cyclists/" + id + "/")
+                .uri("/sport/api/cyclists/" + id + "/")
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .bodyToMono(Cyclist.class)
@@ -44,9 +44,9 @@ public class CyclistAPIService {
 
     public CyclistDTO create(CyclistDTO cyclistDTO) { return requestCreateCyslist(cyclistDTO);}
     private CyclistDTO requestCreateCyslist(CyclistDTO cyclistDTO){
-        return cyclistAPI
+        return API
                 .post()
-                .uri("/pro_cyclists/")
+                .uri("/sport/api/cyclists/new")
                 .body(Mono.just(cyclistDTO), CyclistDTO.class)
                 .retrieve()
                 .bodyToMono(CyclistDTO.class)
@@ -55,9 +55,9 @@ public class CyclistAPIService {
 
     public CyclistDTO update(int id, CyclistDTO cyclistDTO) { return requestCreateCyslist(id, cyclistDTO); }
     private CyclistDTO requestCreateCyslist(int id, CyclistDTO cyclistDTO){
-        return cyclistAPI
+        return API
                 .put()
-                .uri("/pro_cyclists/" + id + "/")
+                .uri("/sport/api/cyclists/update/" + id + "/")
                 .body(Mono.just(cyclistDTO), CyclistDTO.class)
                 .retrieve()
                 .bodyToMono(CyclistDTO.class)
@@ -66,9 +66,9 @@ public class CyclistAPIService {
 
     public void delete(int id) { this.requestDeleteCyslist(id); }
     private void requestDeleteCyslist(int id){
-        cyclistAPI
+        API
                 .delete()
-                .uri("/pro_cyclists/" + id + "/")
+                .uri("/sport/api/cyclists/delete/" + id + "/")
                 .retrieve()
                 .bodyToMono(Void.class)
                 .block(REQUEST_TIMEOUT);

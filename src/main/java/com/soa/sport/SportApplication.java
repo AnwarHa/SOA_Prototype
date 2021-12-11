@@ -15,23 +15,8 @@ public class SportApplication {
 	}
 
 	@Bean
-	public WebClient soccerAPI() {
-		return WebClient.create("http://127.0.0.1:8002");
+	public WebClient API() {
+		return WebClient.create("http://127.0.0.1:8080");
 	}
-
-	@Bean
-	public WebClient cyclistAPI() {
-		return WebClient.create("http://127.0.0.1:8000");
-	}
-
-	@Bean
-	public WebClient running_racesAPI() {
-		return WebClient.create("http://127.0.0.1:8001");
-	}
-
-    @Bean
-    public WebClient playerAPI() {
-        return WebClient.create("http://127.0.0.1:8003");
-    }
 
 }

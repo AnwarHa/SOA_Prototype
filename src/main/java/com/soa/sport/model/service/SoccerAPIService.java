@@ -15,17 +15,17 @@ import java.time.Duration;
 public class SoccerAPIService {
 
     @Autowired
-    private final WebClient soccerAPI;
+    private final WebClient API;
 
     private static final Duration REQUEST_TIMEOUT = Duration.ofSeconds(10);
 
     @Autowired
-    public SoccerAPIService(@Qualifier("soccerAPI") WebClient soccerAPI){ this.soccerAPI = soccerAPI; }
+    public SoccerAPIService(@Qualifier("API") WebClient API){ this.API = API; }
 
     public SoccerPlayer[] requestAllSoccerPlayers(){
-        return soccerAPI
+        return API
                 .get()
-                .uri("/player/")
+                .uri("/sport/api/soccer/")
                 .retrieve()
                 .bodyToMono(SoccerPlayer[].class)
                 .block(REQUEST_TIMEOUT);
@@ -33,9 +33,9 @@ public class SoccerAPIService {
 
     public SoccerPlayer readPlayer(int id){ return requestPlayer(id); }
     private SoccerPlayer requestPlayer(int id){
-        return soccerAPI
+        return API
                 .get()
-                .uri("/details/" + id + "/")
+                .uri("/sport/api/soccer/" + id + "/")
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .bodyToMono(SoccerPlayer.class)
@@ -44,9 +44,9 @@ public class SoccerAPIService {
 
     public SoccerPlayerDTO create(SoccerPlayerDTO soccerPlayerDTO) { return requestCreateSoccerPlayer(soccerPlayerDTO);}
     private SoccerPlayerDTO requestCreateSoccerPlayer(SoccerPlayerDTO soccerPlayerDTO){
-        return soccerAPI
+        return API
                 .post()
-                .uri("/player/")
+                .uri("/sport/api/soccer/new")
                 .body(Mono.just(soccerPlayerDTO), SoccerPlayerDTO.class)
                 .retrieve()
                 .bodyToMono(SoccerPlayerDTO.class)
@@ -55,9 +55,9 @@ public class SoccerAPIService {
 
     public void delete(int id) { this.requestDeleteSoccerPlayer(id); }
     private void requestDeleteSoccerPlayer(int id){
-        soccerAPI
+        API
                 .delete()
-                .uri("/details/" + id + "/")
+                .uri("/sport/api/soccer/" + id + "/delete")
                 .retrieve()
                 .bodyToMono(Void.class)
                 .block(REQUEST_TIMEOUT);
@@ -65,16 +65,13 @@ public class SoccerAPIService {
 
     public SoccerPlayerDTO update(int id, SoccerPlayerDTO soccerPlayerDTO) { return requestUpdateSoccerPlayer(id, soccerPlayerDTO); }
     private SoccerPlayerDTO requestUpdateSoccerPlayer(int id, SoccerPlayerDTO soccerPlayerDTO){
-        return soccerAPI
+        return API
                 .put()
-                .uri("/details/" + id + "/")
+                .uri("/sport/api/soccer/" + id + "/update")
                 .body(Mono.just(soccerPlayerDTO), SoccerPlayerDTO.class)
                 .retrieve()
                 .bodyToMono(SoccerPlayerDTO.class)
                 .block(REQUEST_TIMEOUT);
     }
-
-
-
 
 }
