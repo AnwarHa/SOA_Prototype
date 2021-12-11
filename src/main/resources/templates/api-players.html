@@ -7,12 +7,22 @@
 </head>
 <body>
 <header>Soccer Players</header>
+<a href="http://localhost:8080/sport/api/soccer" class="btn btn-primary">HOME</a>
+
 <form method="get" th:action="@{/sport/api/soccer/filterById}">
     <div class="form-group">
-        <label for="filterById" th:text="id"> </label>
+        <label for="filterById" th:text="id"> Find By ID</label>
         <input class="form-control" type="text" th:name="id" id="filterById" placeholder="0" pattern="[0-9]*"/>
     </div>
     <button type="submit" class="btn btn-primary mb-4" th:text="Search"></button>
+</form>
+
+<form method="get" th:action="@{/sport/api/soccer/deleteById}">
+    <div class="form-group">
+        <label for="deleteById" th:text="id"> Delete By ID</label>
+        <input class="form-control" type="text" th:name="id" id="deleteById" placeholder="0" pattern="[0-9]*"/>
+    </div>
+    <button type="submit" class="btn btn-primary mb-4" th:text="Delete"></button>
 </form>
 
 <a href="http://localhost:8080/sport/api/soccer/new" class="btn btn-primary">Add player</a>

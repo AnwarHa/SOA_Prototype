@@ -70,8 +70,8 @@ public class SoccerAPIController {
         return receivedSoccerPlayer;
     }
 
-    @GetMapping("/{id}/delete")
-    public String deleteSoccerPlayer(@PathVariable int id){
+    @GetMapping("/deleteById")
+    public String deleteSoccerPlayer(@RequestParam int id){
         this.soccerAPIService.delete(id);
         return "redirect:/sport/api/soccer";
     }
