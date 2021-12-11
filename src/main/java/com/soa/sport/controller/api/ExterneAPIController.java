@@ -1,6 +1,6 @@
 package com.soa.sport.controller.api;
 
-import netscape.javascript.JSObject;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.http.MediaType;
