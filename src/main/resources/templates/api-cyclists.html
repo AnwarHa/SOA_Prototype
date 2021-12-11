@@ -16,7 +16,7 @@
     <button type="submit" class="btn btn-primary mb-4" th:text="Search"></button>
 </form>
 
-<a th:action="@{/sport/api/cyclists/add-cyclist}" class="btn btn-primary">Add cyclist</a>
+<a th:href="@{/sport/api/cyclists/add-cyclist}" class="btn btn-primary">Add cyclist</a>
 
 <table class="table table-striped table-responsive-lg">
     <thead>
@@ -29,6 +29,7 @@
         <th>Age</th>
         <th>Height</th>
         <th>Weight</th>
+        <th>Update</th>
     </tr>
     </thead>
     <tbody>
@@ -41,6 +42,8 @@
         <td th:text="${cyclist.age}"></td>
         <td th:text="${cyclist.height}"></td>
         <td th:text="${cyclist.weight}"></td>
+        <td><a th:href="@{/sport/api/cyclists/update/{id}(id=${cyclist.id})}" class="btn btn-primary">Update</a></td>
+        <td><a th:href="@{/sport/api/cyclists/delete/{id}(id=${cyclist.id})}" class="btn btn-primary">Delete</a></td>
     </tr>
     </tbody>
 </table>
