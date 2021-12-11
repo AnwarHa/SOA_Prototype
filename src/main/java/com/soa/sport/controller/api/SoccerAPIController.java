@@ -1,6 +1,7 @@
 package com.soa.sport.controller.api;
 
 import com.soa.sport.model.dto.SoccerPlayerDTO;
+import com.soa.sport.model.entity.Cyclist;
 import com.soa.sport.model.entity.SoccerPlayer;
 import com.soa.sport.model.service.SoccerAPIService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,14 @@ public class SoccerAPIController {
         model.addAttribute("players", players);
         return "api-players";
     }
+
+    @GetMapping( value = "/{id}")
+    public String getShowPlayer(@PathVariable int id, Model model){
+        SoccerPlayer player = this.soccerAPIService.readPlayer(id);
+        model.addAttribute("players", player);
+        return "api-players";
+    }
+
 
     @GetMapping( value = "/filterById")
     public String showPlayer(@RequestParam int id, Model model){
@@ -69,14 +78,20 @@ public class SoccerAPIController {
         return receivedSoccerPlayer;
     }
 
-    @GetMapping("/deleteById")
-    public String deleteSoccerPlayer(@RequestParam int id){
+    @DeleteMapping("/{id}/delete")
+    public void deleteSoccerPlayer(@PathVariable int id){
+        this.soccerAPIService.delete(id);
+    }
+
+    @GetMapping("/{id}/delete")
+    public String getDeleteSoccerPlayer(@PathVariable int id){
         this.soccerAPIService.delete(id);
         return "redirect:/sport/api/soccer";
     }
 
-    @GetMapping("/updateById")
-    public String getUpdateMovie(@RequestParam int id, Model model){
+
+    @GetMapping("/{id}/update")
+    public String getUpdateMovie(@PathVariable int id, Model model){
         SoccerPlayer player = this.soccerAPIService.readPlayer(id);
         model.addAttribute("id",id);
         model.addAttribute("player", player);
@@ -108,7 +123,7 @@ public class SoccerAPIController {
         SoccerPlayerDTO soccerPlayerDTO = new SoccerPlayerDTO(first_name, last_name, team, position, dob, goals, assists);
         SoccerPlayerDTO receivedSoccerPlayer = this.soccerAPIService.update(id, soccerPlayerDTO);
         System.out.println("UPDATED: " + receivedSoccerPlayer);
-        return "redirect:/sport/api/soccer/";
+        return "redirect:/sport/api/soccer/" + id;
     }
 
     public SoccerPlayerDTO createSoccerDTO(SoccerPlayer soccerPlayer){
