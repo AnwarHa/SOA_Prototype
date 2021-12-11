@@ -4,6 +4,7 @@ import com.soa.sport.model.dto.PlayerDTO;
 import com.soa.sport.model.entity.Player;
 import com.soa.sport.model.service.PlayerAPIService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -11,7 +12,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import java.util.Arrays;
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping(path = "/sport/api/players")
 public class PlayerAPIController {
     private final PlayerAPIService playerAPIService;
