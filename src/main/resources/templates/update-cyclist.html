@@ -7,7 +7,7 @@
 </head>
 <body>
 <div class="container-lg">
-    <h2 class="mt-2">Add Cyclist</h2>
+    <h2 class="mt-2">Update Cyclist</h2>
     <form th:method="post" th:action="@{'/sport/api/cyclists/update/' + ${id}}" th:object="${cyclist}">
         <div class="mb-2">
             <label for="first_name">First name</label>

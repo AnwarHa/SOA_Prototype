@@ -10,10 +10,10 @@
     <header class="h3 mb-3 mt-2">Soccer Players</header>
 <form method="get" th:action="@{/sport/api/soccer/filterById}">
     <div class="form-group">
-        <label for="filterById" th:text="id"> Find By ID</label>
+        <label for="filterById">Search by Id:</label>
         <input class="form-control" type="text" th:name="id" id="filterById" placeholder="0" pattern="[0-9]*"/>
     </div>
-    <button type="submit" class="btn btn-primary mb-4" th:text="Search"></button>
+    <button type="submit" class="btn btn-primary mb-4 mt-1" th:text="Search"></button>
 </form>
 
 
