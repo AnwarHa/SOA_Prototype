@@ -11,9 +11,9 @@ public class Running_raceDTO {
     private int distance;
     private int registration_price;
     private String date;
-    private Time starting_hour;
+    private String starting_hour;
 
-    public Running_raceDTO(int id, String name, String organizer, String location, int distance, int registration_price, String date, Time starting_hour) {
+    public Running_raceDTO(int id, String name, String organizer, String location, int distance, int registration_price, String date, String starting_hour) {
         this.id = id;
         this.name = name;
         this.organizer = organizer;
@@ -24,7 +24,7 @@ public class Running_raceDTO {
         this.starting_hour = starting_hour;
     }
 
-    public Running_raceDTO(String name, String organizer, String location, int distance, int registration_price, String date, Time starting_hour) {
+    public Running_raceDTO(String name, String organizer, String location, int distance, int registration_price, String date, String starting_hour) {
         this.name = name;
         this.organizer = organizer;
         this.location = location;
@@ -93,11 +93,11 @@ public class Running_raceDTO {
         this.date = date;
     }
 
-    public Time getStarting_hour() {
+    public String getStarting_hour() {
         return starting_hour;
     }
 
-    public void setStarting_hour(Time starting_hour) {
+    public void setStarting_hour(String starting_hour) {
         this.starting_hour = starting_hour;
     }
 
