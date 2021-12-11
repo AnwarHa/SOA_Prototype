@@ -4,6 +4,7 @@ import com.soa.sport.model.dto.CyclistDTO;
 import com.soa.sport.model.entity.Cyclist;
 import com.soa.sport.model.service.CyclistAPIService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -11,7 +12,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import java.util.Arrays;
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping(path = "/sport/api/cyclists")
 public class CyclistAPIController {
 
@@ -23,17 +24,17 @@ public class CyclistAPIController {
     }
 
     @GetMapping
-    public List<Cyclist> getOverviewProCyclists(Model model) {
+    public String getOverviewProCyclists(Model model) {
         List<Cyclist> cyclists = Arrays.asList(this.cyclistAPIService.requestAllProCyclists());
         model.addAttribute("cyclists", cyclists);
-        return cyclists;
+        return "api-cyclists";
     }
 
-    @GetMapping( value = "/{id}")
-    public Cyclist showPlayer(@PathVariable int id, Model model){
+    @GetMapping( value = "/filterById")
+    public String showPlayer(@RequestParam int id, Model model){
         Cyclist cyclist = this.cyclistAPIService.readcyclist(id);
-        model.addAttribute("cyclist", cyclist);
-        return cyclist;
+        model.addAttribute("cyclists", cyclist);
+        return "api-cyclists";
     }
 
     @PostMapping(value = "/new")
@@ -51,6 +52,11 @@ public class CyclistAPIController {
     @DeleteMapping("/delete/{id}")
     public void deleteCyclist(@PathVariable int id){
         this.cyclistAPIService.delete(id);
+    }
+
+    @GetMapping("/add-cyclist")
+    public String addCyclist(){
+        return "add-cyclist";
     }
 
     public CyclistDTO createCyclistDTO(Cyclist cyclist){
