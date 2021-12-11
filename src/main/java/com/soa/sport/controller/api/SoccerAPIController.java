@@ -31,11 +31,10 @@ public class SoccerAPIController {
         return "api-players";
     }
 
-    @GetMapping( value = "/{id}")
-    public String showPlayer(@PathVariable int id, Model model){
-        model.addAttribute("player",this.soccerAPIService.readPlayer(id));
-        System.out.println(this.soccerAPIService.readPlayer(id));
-        return "api-player-details";
+    @GetMapping( value = "/filterById")
+    public String showPlayer(@RequestParam int id, Model model){
+        model.addAttribute("players",this.soccerAPIService.readPlayer(id));
+        return "api-players";
     }
 
     @GetMapping(value = "/new")
