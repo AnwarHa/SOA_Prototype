@@ -8,7 +8,7 @@
 <body>
 <div class="container-lg">
   <header class="h3 mb-3 mt-2">BasketballNBA</header>
-
+  <a th:href="@{/}" class="btn btn-primary mb-3">Back to home page</a>
   <form method="get" th:action="@{/sport/api/extern/basketballNBA/{id}}">
     <div class="form-group">
       <label for="filterById">Search by id:</label>
