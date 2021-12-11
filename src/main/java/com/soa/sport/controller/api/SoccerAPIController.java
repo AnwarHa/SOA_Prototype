@@ -75,8 +75,8 @@ public class SoccerAPIController {
         return "redirect:/sport/api/soccer";
     }
 
-    @GetMapping("/{id}/update")
-    public String getUpdateMovie(@PathVariable int id, Model model){
+    @GetMapping("/updateById")
+    public String getUpdateMovie(@RequestParam int id, Model model){
         SoccerPlayer player = this.soccerAPIService.readPlayer(id);
         model.addAttribute("id",id);
         model.addAttribute("player", player);
@@ -108,7 +108,7 @@ public class SoccerAPIController {
         SoccerPlayerDTO soccerPlayerDTO = new SoccerPlayerDTO(first_name, last_name, team, position, dob, goals, assists);
         SoccerPlayerDTO receivedSoccerPlayer = this.soccerAPIService.update(id, soccerPlayerDTO);
         System.out.println("UPDATED: " + receivedSoccerPlayer);
-        return "redirect:/sport/api/soccer/" + id;
+        return "redirect:/sport/api/soccer/";
     }
 
     public SoccerPlayerDTO createSoccerDTO(SoccerPlayer soccerPlayer){
