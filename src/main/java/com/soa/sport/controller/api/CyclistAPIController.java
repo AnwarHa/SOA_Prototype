@@ -1,9 +1,7 @@
 package com.soa.sport.controller.api;
 
 import com.soa.sport.model.dto.CyclistDTO;
-import com.soa.sport.model.dto.SoccerPlayerDTO;
 import com.soa.sport.model.entity.Cyclist;
-import com.soa.sport.model.entity.SoccerPlayer;
 import com.soa.sport.model.service.CyclistAPIService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -46,6 +44,12 @@ public class CyclistAPIController {
         return "api-cyclists";
     }
 
+    @GetMapping("/add-cyclist")
+    public String addCyclist(Model model){
+        model.addAttribute("cyclist", new CyclistDTO());
+        return "add-cyclist";
+    }
+
     @PostMapping(value = "/new", produces = "application/json", consumes = "application/json")
     public CyclistDTO postNewCyclist(@RequestBody Cyclist cyclist) {
         CyclistDTO cyclistDTO = createCyclistDTO(cyclist);
@@ -63,8 +67,7 @@ public class CyclistAPIController {
             @RequestParam(name = "weight") int weight
     ){
         CyclistDTO cyclistDTO = new CyclistDTO(first_name, last_name, team, nationality, age, height, weight);
-        CyclistDTO receivedCyclist = this.cyclistAPIService.create(cyclistDTO);
-        System.out.println("CREATED: " + receivedCyclist);
+        this.cyclistAPIService.create(cyclistDTO);
         return "redirect:/sport/api/cyclists";
     }
 
@@ -94,8 +97,7 @@ public class CyclistAPIController {
             @RequestParam(name = "weight") int weight
     ){
         CyclistDTO cyclistDTO = new CyclistDTO(first_name, last_name, team, nationality, age, height, weight);
-        CyclistDTO receivedCyclist = this.cyclistAPIService.update(id, cyclistDTO);
-        System.out.println("UPDATED: " + receivedCyclist);
+        this.cyclistAPIService.update(id, cyclistDTO);
         return "redirect:/sport/api/cyclists/" + id;
     }
 
@@ -108,12 +110,6 @@ public class CyclistAPIController {
     public String getDeleteCyclist(@PathVariable int id){
         this.cyclistAPIService.delete(id);
         return "redirect:/sport/api/cyclists";
-    }
-
-    @GetMapping("/add-cyclist")
-    public String addCyclist(Model model){
-        model.addAttribute("cyclist", new CyclistDTO());
-        return "add-cyclist";
     }
 
     public CyclistDTO createCyclistDTO(Cyclist cyclist){
