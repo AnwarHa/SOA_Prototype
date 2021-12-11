@@ -6,6 +6,7 @@ import com.soa.sport.model.entity.F1Race;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.boot.Banner;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,14 +23,14 @@ import java.util.ArrayList;
 public class ExterneAPIController {
     @GetMapping(value = "/soccerleagues", produces = MediaType.APPLICATION_JSON_VALUE)
     private String getSoccerleagues() {
-        String url="https://api-football-standings.azharimm.site/leagues";
+        String url = "https://api-football-standings.azharimm.site/leagues";
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.getForObject(url, String.class);
     }
 
-    @GetMapping(value =  "/soccerleagues/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/soccerleagues/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     private String getSoccerleaguesById(@PathVariable String id) throws JSONException {
-        String url="https://api-football-standings.azharimm.site/leagues/" + id;
+        String url = "https://api-football-standings.azharimm.site/leagues/" + id;
         RestTemplate restTemplate = new RestTemplate();
         String json = restTemplate.getForObject(url, String.class);
         JSONObject jsonObject = new JSONObject(json);
@@ -40,19 +41,19 @@ public class ExterneAPIController {
 
     @GetMapping(value = "/basketballNBA", produces = MediaType.APPLICATION_JSON_VALUE)
     private String getBasketballNBA(Model model) {
-        String url="http://127.0.0.1:8080/sport/api/extern/basketballNBA";
+        String url = "http://127.0.0.1:8080/sport/api/extern/basketballNBA";
         RestTemplate restTemplate = new RestTemplate();
         String json = restTemplate.getForObject(url, String.class);
         JSONObject jsonObject = new JSONObject(json);
         JSONArray jsonArray = jsonObject.getJSONArray("data");
         ArrayList<BasketballNBAPlayer> basketballNBAPlayers = new ArrayList<>();
-        for(int i=0; i < jsonArray.length(); i++){
+        for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject obj = jsonArray.getJSONObject(i);
             String first_name = obj.getString("first_name");
             String last_name = obj.getString("last_name");
             String position = obj.getString("position");
             int id = obj.getInt("id");
-            BasketballNBAPlayer basketballNBAPlayer = new BasketballNBAPlayer(id,first_name,last_name,position);
+            BasketballNBAPlayer basketballNBAPlayer = new BasketballNBAPlayer(id, first_name, last_name, position);
             basketballNBAPlayers.add(basketballNBAPlayer);
         }
         model.addAttribute("basketballNBAPlayers", basketballNBAPlayers);
@@ -60,21 +61,30 @@ public class ExterneAPIController {
     }
 
     @GetMapping(value = "/basketballNBA/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    private String getBasketballNBAById(@PathVariable int id) {
-        String url="http://127.0.0.1:8080/sport/api/extern/basketballNBA/" + id;
+    private String getBasketballNBAById(@RequestParam int id, Model model) {
+        String url = "http://127.0.0.1:8080/sport/api/extern/basketballNBA/" + id;
         RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.getForObject(url, String.class);
+        String json = restTemplate.getForObject(url, String.class);
+        JSONObject jsonObject = new JSONObject(json);
+        String first_name = jsonObject.getString("first_name");
+        String last_name = jsonObject.getString("last_name");
+        String position = jsonObject.getString("position");
+        int idV2 = jsonObject.getInt("id");
+        BasketballNBAPlayer basketballNBAPlayer = new BasketballNBAPlayer(idV2, first_name, last_name, position);
+        model.addAttribute("basketballNBAPlayers", basketballNBAPlayer);
+        return "api-basketballNBA";
     }
+
 
     @GetMapping(value = "/f1Races", produces = MediaType.APPLICATION_JSON_VALUE)
     private String getf1Races(Model model) {
-        String url="http://127.0.0.1:8080/sport/api/extern/f1Races";
+        String url = "http://127.0.0.1:8080/sport/api/extern/f1Races";
         RestTemplate restTemplate = new RestTemplate();
         String json = restTemplate.getForObject(url, String.class);
         JSONObject jsonObject = new JSONObject(json);
         JSONArray jsonArray = jsonObject.getJSONObject("MRData").getJSONObject("RaceTable").getJSONArray("Races");
         ArrayList<F1Race> races = new ArrayList<>();
-        for(int i=0; i < jsonArray.length(); i++){
+        for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject obj = jsonArray.getJSONObject(i);
             int season = Integer.parseInt(obj.getString("season"));
             String raceName = obj.getString("raceName");
@@ -88,13 +98,13 @@ public class ExterneAPIController {
 
     @GetMapping(value = "/f1Races/{year}", produces = MediaType.APPLICATION_JSON_VALUE)
     private String getf1RacesByYear(@RequestParam int year, Model model) {
-        String url="http://127.0.0.1:8080/sport/api/extern/f1Races/" + year;
+        String url = "http://127.0.0.1:8080/sport/api/extern/f1Races/" + year;
         RestTemplate restTemplate = new RestTemplate();
         String json = restTemplate.getForObject(url, String.class);
         JSONObject jsonObject = new JSONObject(json);
         JSONArray jsonArray = jsonObject.getJSONObject("MRData").getJSONObject("RaceTable").getJSONArray("Races");
         ArrayList<F1Race> races = new ArrayList<>();
-        for(int i=0; i < jsonArray.length(); i++){
+        for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject obj = jsonArray.getJSONObject(i);
             int season = Integer.parseInt(obj.getString("season"));
             String raceName = obj.getString("raceName");
@@ -108,14 +118,14 @@ public class ExterneAPIController {
 
     @GetMapping(value = "/citybikes", produces = MediaType.APPLICATION_JSON_VALUE)
     private String getCitybikes() {
-        String url="https://api.citybik.es/v2/networks/";
+        String url = "https://api.citybik.es/v2/networks/";
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.getForObject(url, String.class);
     }
 
     @GetMapping(value = "/citybikes/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     private String getCitybikesById(@PathVariable String id) {
-        String url="https://api.citybik.es/v2/networks/" + id;
+        String url = "https://api.citybik.es/v2/networks/" + id;
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.getForObject(url, String.class);
     }
