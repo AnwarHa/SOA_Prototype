@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>New Soccer Player</title>
+</head>
+<body>
+<header>New Soccer Player</header>
+<div>
+    <form th:method="post" th:action="@{/sport/api/soccer/new}" th:object="${player}">
+        <div>
+            <label for="first_name" >First name</label>
+            <input th:field="*{first_name}" type="text" required>
+        </div>
+        <div>
+            <label for="last_name" >Last name</label>
+            <input th:field="*{last_name}" type="text" required>
+        </div>
+        <div>
+            <label for="team" >Team</label>
+            <input th:field="*{team}" type="text" required>
+        </div>
+        <div>
+            <label for="position" >Position</label>
+            <input th:field="*{position}" type="text" required>
+        </div>
+        <div>
+            <label for="dob" >Date of Birth</label>
+            <input th:field="*{dob}" type="date" required>
+        </div>
+        <div>
+            <label for="goals" >Goals</label>
+            <input th:field="*{goals}" type="number" required>
+        </div>
+        <div>
+            <label for="assists" >Assists</label>
+            <input th:field="*{assists}" type="number" required>
+        </div>
+        <div>
+            <input type="submit" th:value="Add">
+        </div>
+    </form>
+</div>
+</body>
+</html>

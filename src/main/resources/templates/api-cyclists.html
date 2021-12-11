@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pro Cyclists</title>
+</head>
+<body>
+<header>Pro Cyclists</header>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Team</th>
+        <th>Nationality</th>
+        <th>Age</th>
+        <th>Height</th>
+        <th>Weight</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="cyclist : ${cyclists}">
+        <td th:text="${cyclist.id}"></td>
+        <td th:text="${cyclist.first_name}"></td>
+        <td th:text="${cyclist.last_name}"></td>
+        <td th:text="${cyclist.team}"></td>
+        <td th:text="${cyclist.nationality}"></td>
+        <td th:text="${cyclist.age}"></td>
+        <td th:text="${cyclist.height}"></td>
+        <td th:text="${cyclist.weight}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
