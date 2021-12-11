@@ -3,10 +3,10 @@ package com.soa.sport.controller.api;
 
 import com.soa.sport.model.entity.BasketballNBAPlayer;
 import com.soa.sport.model.entity.F1Race;
+import com.soa.sport.model.entity.League;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.springframework.boot.Banner;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,21 +22,41 @@ import java.util.ArrayList;
 @RequestMapping(path = "/sport/api/extern")
 public class ExterneAPIController {
     @GetMapping(value = "/soccerleagues", produces = MediaType.APPLICATION_JSON_VALUE)
-    private String getSoccerleagues() {
-        String url = "https://api-football-standings.azharimm.site/leagues";
-        RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.getForObject(url, String.class);
-    }
-
-    @GetMapping(value = "/soccerleagues/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    private String getSoccerleaguesById(@PathVariable String id) throws JSONException {
-        String url = "https://api-football-standings.azharimm.site/leagues/" + id;
+    private String getSoccerleagues(Model model) throws JSONException {
+        String url="http://127.0.0.1:8080/sport/api/extern/soccerleagues/";
         RestTemplate restTemplate = new RestTemplate();
         String json = restTemplate.getForObject(url, String.class);
         JSONObject jsonObject = new JSONObject(json);
-        System.out.println(jsonObject.getJSONObject("data").getString("name"));
+        JSONArray jsonArray = jsonObject.optJSONArray("data");
+        ArrayList<League> leagues = new ArrayList<>();
+        for(int i=0; i < jsonArray.length(); i++){
+            JSONObject obj = jsonArray.getJSONObject(i);
+            String id = obj.getString("id");
+            String name = obj.getString("name");
+            String light = obj.getJSONObject("logos").getString("light");
+            String dark = obj.getJSONObject("logos").getString("dark");
+            League league = new League(id, name, light, dark);
+            leagues.add(league);
+        }
+        model.addAttribute("leagues", leagues);
 
-        return restTemplate.getForObject(url, String.class);
+        return "api-league";
+    }
+
+    @GetMapping(value =  "/soccerleagues/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    private String getSoccerleaguesById(@RequestParam String id, Model model) throws JSONException {
+        String url="http://127.0.0.1:8080/sport/api/extern/soccerleagues/" + id;
+        RestTemplate restTemplate = new RestTemplate();
+        String json = restTemplate.getForObject(url, String.class);
+        JSONObject jsonObject = new JSONObject(json);
+        String jsonId = jsonObject.getJSONObject("data").getString("id");
+        String name = jsonObject.getJSONObject("data").getString("name");
+        String light = jsonObject.getJSONObject("data").getJSONObject("logos").getString("light");
+        String dark = jsonObject.getJSONObject("data").getJSONObject("logos").getString("dark");
+        League league = new League(jsonId, name, light, dark);
+        model.addAttribute("leagues", league);
+
+        return "api-league";
     }
 
     @GetMapping(value = "/basketballNBA", produces = MediaType.APPLICATION_JSON_VALUE)
