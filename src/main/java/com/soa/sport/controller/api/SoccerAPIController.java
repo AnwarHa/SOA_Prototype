@@ -1,7 +1,6 @@
 package com.soa.sport.controller.api;
 
 import com.soa.sport.model.dto.SoccerPlayerDTO;
-import com.soa.sport.model.entity.Cyclist;
 import com.soa.sport.model.entity.SoccerPlayer;
 import com.soa.sport.model.service.SoccerAPIService;
 import org.springframework.beans.factory.annotation.Autowired;
