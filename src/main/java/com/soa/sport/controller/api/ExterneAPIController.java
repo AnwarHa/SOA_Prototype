@@ -1,5 +1,8 @@
 package com.soa.sport.controller.api;
 
+import netscape.javascript.JSObject;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,9 +21,13 @@ public class ExterneAPIController {
     }
 
     @GetMapping(value =  "/soccerleagues/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    private String getSoccerleaguesById(@PathVariable String id) {
+    private String getSoccerleaguesById(@PathVariable String id) throws JSONException {
         String url="https://api-football-standings.azharimm.site/leagues/" + id;
         RestTemplate restTemplate = new RestTemplate();
+        String json = restTemplate.getForObject(url, String.class);
+        JSONObject jsonObject = new JSONObject(json);
+        System.out.println(jsonObject.getJSONObject("data").getString("name"));
+
         return restTemplate.getForObject(url, String.class);
     }
 
