@@ -2,6 +2,7 @@ package com.soa.sport.controller.api;
 
 
 import com.soa.sport.model.entity.BasketballNBAPlayer;
+import com.soa.sport.model.entity.Citybike;
 import com.soa.sport.model.entity.F1Race;
 import com.soa.sport.model.entity.League;
 import org.json.JSONArray;
@@ -137,17 +138,39 @@ public class ExterneAPIController {
     }
 
     @GetMapping(value = "/citybikes", produces = MediaType.APPLICATION_JSON_VALUE)
-    private String getCitybikes() {
-        String url = "https://api.citybik.es/v2/networks/";
+    private String getCitybikes(Model model) {
+        String url = "http://127.0.0.1:8080/sport/api/extern/citybikes";
         RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.getForObject(url, String.class);
+        String json = restTemplate.getForObject(url, String.class);
+        JSONObject jsonObject = new JSONObject(json);
+        JSONArray jsonArray = jsonObject.getJSONArray("networks");
+        ArrayList<Citybike> citybikes = new ArrayList<>();
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject obj = jsonArray.getJSONObject(i);
+            String id = obj.getString("id");
+            String name = obj.getString("name");
+            String city = obj.getJSONObject("location").getString("city");
+            String country = obj.getJSONObject("location").getString("country");
+            Citybike citybike = new Citybike(id, name, city, country);
+            citybikes.add(citybike);
+        }
+        model.addAttribute("citybikes", citybikes);
+        return "api-citybikes";
     }
 
     @GetMapping(value = "/citybikes/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    private String getCitybikesById(@PathVariable String id) {
-        String url = "https://api.citybik.es/v2/networks/" + id;
+    private String getCitybikesById(@PathVariable String id, Model model) {
+        String url = "http://127.0.0.1:8080/sport/api/extern/citybikes/" + id;
         RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.getForObject(url, String.class);
+        String json = restTemplate.getForObject(url, String.class);
+        JSONObject jsonObject = new JSONObject(json);
+        JSONObject obj = jsonObject.getJSONObject("networks");
+        String jsonId = obj.getString("id");
+        String name = obj.getString("name");
+        String city = obj.getJSONObject("location").getString("city");
+        String country = obj.getJSONObject("location").getString("country");
+        Citybike citybike = new Citybike(jsonId, name, city, country);
+        model.addAttribute("citybikes", citybike);
+        return "api-citybike";
     }
-
 }
