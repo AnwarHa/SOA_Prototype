@@ -9,7 +9,7 @@
 <div class="container-lg">
     <header class="h3 mb-3 mt-2">Citybikes</header>
     <a th:href="@{/}" class="btn btn-primary mb-3">Back to home page</a>
-    <form method="get" th:action="@{/sport/api/extern/citybikes/{id}}">
+    <form method="get" th:action="@{/sport/api/extern/citybikes/id}">
         <div class="form-group">
             <label for="filterById">Search by id:</label>
             <input class="form-control" type="text" th:name="id" id="filterById" placeholder="velobike-moscow"/>

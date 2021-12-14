@@ -54,7 +54,7 @@ public class PlayerAPIService {
     private PlayerDTO requestCreatePlayer(int id, PlayerDTO playerDTO){
         return API
                 .put()
-                .uri("/sport/api/players/update" + id + "/")
+                .uri("/sport/api/players/update/" + id + "/")
                 .body(Mono.just(playerDTO), PlayerDTO.class)
                 .retrieve()
                 .bodyToMono(PlayerDTO.class)
@@ -65,7 +65,7 @@ public class PlayerAPIService {
     private void requestDeletePlayer(int id){
         API
                 .delete()
-                .uri("/sport/api/players/delete" + id + "/")
+                .uri("/sport/api/players/delete/" + id + "/")
                 .retrieve()
                 .bodyToMono(Void.class)
                 .block(REQUEST_TIMEOUT);

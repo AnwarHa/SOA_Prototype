@@ -159,18 +159,18 @@ public class ExterneAPIController {
     }
 
     @GetMapping(value = "/citybikes/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    private String getCitybikesById(@PathVariable String id, Model model) {
+    private String getCitybikesById(@RequestParam String id, Model model) {
         String url = "http://127.0.0.1:8080/sport/api/extern/citybikes/" + id;
         RestTemplate restTemplate = new RestTemplate();
         String json = restTemplate.getForObject(url, String.class);
         JSONObject jsonObject = new JSONObject(json);
-        JSONObject obj = jsonObject.getJSONObject("networks");
+        JSONObject obj = jsonObject.getJSONObject("network");
         String jsonId = obj.getString("id");
         String name = obj.getString("name");
         String city = obj.getJSONObject("location").getString("city");
         String country = obj.getJSONObject("location").getString("country");
         Citybike citybike = new Citybike(jsonId, name, city, country);
         model.addAttribute("citybikes", citybike);
-        return "api-citybike";
+        return "api-citybikes";
     }
 }

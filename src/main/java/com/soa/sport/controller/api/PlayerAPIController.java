@@ -30,10 +30,10 @@ public class PlayerAPIController {
     }
 
     @GetMapping( value = "/{id}")
-    public Player getShowPlayer(@PathVariable int id, Model model){
+    public String getShowPlayer(@PathVariable int id, Model model){
         Player player = this.playerAPIService.readPlayer(id);
-        model.addAttribute("player", player);
-        return player;
+        model.addAttribute("players", player);
+        return "api-basketballplayers";
     }
 
     @GetMapping( value = "/filterById")
